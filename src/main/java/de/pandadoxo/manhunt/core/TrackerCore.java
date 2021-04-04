@@ -98,11 +98,10 @@ public class TrackerCore {
 
     public ItemStack getCompass(Tracker tracker) {
         for (ItemStack item : tracker.getPlayer().getInventory().getContents()) {
-            if (item.getItemMeta().getDisplayName().equals(Main.getInstance().trackerItem.getItemMeta().getDisplayName())) {
+            if (item != null && item.hasItemMeta() && item.getItemMeta().getDisplayName().equals(Main.getInstance().trackerItem.getItemMeta().getDisplayName())) {
                 return item;
             }
         }
-        giveTracker(tracker);
         return null;
     }
 

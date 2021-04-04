@@ -6,11 +6,13 @@
 package de.pandadoxo.manhunt.listener;
 
 import de.pandadoxo.manhunt.Main;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.inventory.InventoryMoveItemEvent;
+import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
@@ -29,26 +31,22 @@ public class ItemListener implements Listener {
         }
         if (event.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals(Main.getInstance().trackerItem.getItemMeta().getDisplayName())) {
             event.setCancelled(true);
+            event.getItemDrop().remove();
         }
     }
 
     @EventHandler
-    public void onItemDrag(InventoryMoveItemEvent event) {
-        if (!(event.getInitiator().getHolder() instanceof Player)) {
-            return;
-        }
-        Player p = (Player) event.getInitiator().getHolder();
+    public void onClick(InventoryClickEvent event) {
         if (Main.getTrackerCore().runner == null) {
             return;
         }
-        if (Main.getTrackerCore().runner == p) {
+        if (!event.getWhoClicked().getOpenInventory().getType().isCreatable()) {
             return;
         }
-        if (event.getDestination() == p.getInventory()) {
-            return;
-        }
-        if (event.getItem().getItemMeta().getDisplayName().equals(Main.getInstance().trackerItem.getItemMeta().getDisplayName())) {
+        if (event.getCurrentItem() != null && event.getCurrentItem().hasItemMeta() &&
+                event.getCurrentItem().getItemMeta().getDisplayName().equals(Main.getInstance().trackerItem.getItemMeta().getDisplayName())) {
             event.setCancelled(true);
+            event.setResult(Event.Result.DENY);
         }
     }
 
