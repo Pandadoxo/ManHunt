@@ -14,7 +14,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerPortalEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 
 public class RunnerListener implements Listener {
 
@@ -40,6 +39,7 @@ public class RunnerListener implements Listener {
         }
         if (Main.getTrackerCore().runner == p) {
             Bukkit.broadcastMessage(Main.PREFIX + "§7Der §dRunner §7ist gestorben. Die §aHunter §7haben gewonnen!");
+            Main.getTrackerCore().stop();
         }
     }
 
@@ -49,7 +49,8 @@ public class RunnerListener implements Listener {
             return;
         }
         if(event.getEntity() instanceof EnderDragon) {
-            Bukkit.broadcastMessage(Main.PREFIX + "§7Der §bEnder Drache §7wrude getötet. Der §dRunner §7hat gewonnen!");
+            Bukkit.broadcastMessage(Main.PREFIX + "§7Der §bEnder Drache §7wurde getötet. Der §dRunner §7hat gewonnen!");
+            Main.getTrackerCore().stop();
         }
     }
 

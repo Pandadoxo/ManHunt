@@ -9,6 +9,8 @@ import de.pandadoxo.manhunt.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.CompassMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -41,6 +43,7 @@ public class TrackerCore {
             addTracker(all);
         }
 
+        giveTracker();
         this.task = new BukkitRunnable() {
             @Override
             public void run() {
@@ -79,10 +82,29 @@ public class TrackerCore {
                 tracker.setTarget(runnerPortal);
             }
 
-            tracker.getPlayer().setCompassTarget(tracker.getTarget());
+            setTarget(tracker);
         }
     }
 
+    public void setTarget(Tracker tracker) {
+        ItemStack compass = getCompass(tracker);
+        if (compass == null) return;
+
+        CompassMeta meta = (CompassMeta) compass.getItemMeta();
+        meta.setLodestone(tracker.getTarget());
+        meta.setLodestoneTracked(false);
+        compass.setItemMeta(meta);
+    }
+
+    public ItemStack getCompass(Tracker tracker) {
+        for (ItemStack item : tracker.getPlayer().getInventory().getContents()) {
+            if (item.getItemMeta().getDisplayName().equals(Main.getInstance().trackerItem.getItemMeta().getDisplayName())) {
+                return item;
+            }
+        }
+        giveTracker(tracker);
+        return null;
+    }
 
     public Tracker getTracker(Player player) {
         for (Tracker tracker : trackers) {
@@ -108,9 +130,9 @@ public class TrackerCore {
     }
 
     public void removeTracker(Player player) {
-       if(getTracker(player) != null) {
-           trackers.remove(getTracker(player));
-       }
+        if (getTracker(player) != null) {
+            trackers.remove(getTracker(player));
+        }
     }
 
 }

@@ -15,7 +15,6 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 public class ItemListener implements Listener {
@@ -28,7 +27,7 @@ public class ItemListener implements Listener {
         if (Main.getTrackerCore().runner == event.getPlayer()) {
             return;
         }
-        if (event.getItemDrop().getItemStack().isSimilar(Main.getInstance().trackerItem)) {
+        if (event.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals(Main.getInstance().trackerItem.getItemMeta().getDisplayName())) {
             event.setCancelled(true);
         }
     }
@@ -45,10 +44,10 @@ public class ItemListener implements Listener {
         if (Main.getTrackerCore().runner == p) {
             return;
         }
-        if (event.getDestination() == event.getInitiator()) {
+        if (event.getDestination() == p.getInventory()) {
             return;
         }
-        if (event.getItem().isSimilar(Main.getInstance().trackerItem)) {
+        if (event.getItem().getItemMeta().getDisplayName().equals(Main.getInstance().trackerItem.getItemMeta().getDisplayName())) {
             event.setCancelled(true);
         }
     }
@@ -66,7 +65,7 @@ public class ItemListener implements Listener {
         Iterator<ItemStack> drops = event.getDrops().iterator();
         while (drops.hasNext()) {
             ItemStack drop = drops.next();
-            if (drop != null && drop.isSimilar(Main.getInstance().trackerItem)) {
+            if (drop != null && drop.getItemMeta().getDisplayName().equals(Main.getInstance().trackerItem.getItemMeta().getDisplayName())) {
                 event.getDrops().remove(drop);
             }
         }
