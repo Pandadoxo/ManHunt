@@ -1,0 +1,8 @@
+name: ManHunt
+version: ${project.version}
+main: de.pandadoxo.manhunt.Main
+api-version: 1.16
+authors: [Pandadoxo, MELONEODERSO]
+
+commands:
+  settarget:
