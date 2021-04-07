@@ -76,7 +76,7 @@ public class TrackerCore {
 
         // Set Compass Target
         for (Tracker tracker : trackers) {
-            if (tracker.getPlayer().getWorld() == runner.getWorld()) {
+            if (tracker.getPlayer().getWorld().getUID() == runner.getWorld().getUID()) {
                 tracker.setTarget(runner.getLocation());
             } else if (runnerPortal != null) {
                 tracker.setTarget(runnerPortal);

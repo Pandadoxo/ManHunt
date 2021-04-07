@@ -6,6 +6,7 @@
 package de.pandadoxo.manhunt.commands;
 
 import de.pandadoxo.manhunt.Main;
+import de.pandadoxo.manhunt.event.TimerCallEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -39,6 +40,8 @@ public class TargetCmd implements CommandExecutor {
         Main.getTrackerCore().stop();
         Main.getTrackerCore().start(target);
         Bukkit.broadcastMessage(Main.PREFIX + "§b" + target.getName() + " §7ist nun der §dRunner§7. Jagt ihn sobald der Timer gestartet ist!");
+
+        Bukkit.getPluginManager().callEvent(new TimerCallEvent("start"));
         return false;
     }
 
