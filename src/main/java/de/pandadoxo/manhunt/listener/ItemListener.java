@@ -19,6 +19,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class ItemListener implements Listener {
@@ -62,13 +63,7 @@ public class ItemListener implements Listener {
             return;
         }
 
-        Iterator<ItemStack> drops = event.getDrops().iterator();
-        while (drops.hasNext()) {
-            ItemStack drop = drops.next();
-            if (drop != null && drop.getItemMeta().getDisplayName().equals(Main.getInstance().trackerItem.getItemMeta().getDisplayName())) {
-                event.getDrops().remove(drop);
-            }
-        }
+        event.getDrops().removeIf(drop -> drop != null && drop.getItemMeta().getDisplayName().equals(Main.getInstance().trackerItem.getItemMeta().getDisplayName()));
     }
 
     @EventHandler
